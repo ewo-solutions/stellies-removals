@@ -1,0 +1,106 @@
+---
+// A brief, flat-edged curtain wipe on first load — no soft fade, in keeping
+// with the Modernist system's hard 2px rules. Shown once per browser tab
+// session; instant no-op for repeat views, reduced-motion users, and
+// no-JS. Locks background scroll for the ~1s it's on screen.
+import Logo from './Logo.astro';
+---
+
+<div id="preload-curtain" class="curtain" aria-hidden="true">
+  <div class="curtain__mark">
+    <Logo variant="dark" width={220} height={54} />
+  </div>
+</div>
+
+<noscript>
+  <style>
+    #preload-curtain {
+      display: none !important;
+    }
+  </style>
+</noscript>
+
+<style>
+  .curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .curtain__mark {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  /* Reduced motion / no-preference both get a hard cut via JS classes;
+     this only governs the transition timing when motion is allowed. */
+  @media (prefers-reduced-motion: no-preference) {
+    .curtain {
+      transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .curtain__mark {
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .curtain.curtain--mark-in .curtain__mark {
+      opacity: 1;
+      transform: none;
+    }
+    .curtain.curtain--hide {
+      transform: translateY(-100%);
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const curtain = document.getElementById('preload-curtain');
+    if (!curtain) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const alreadySeen = (() => {
+      try {
+        return sessionStorage.getItem('sr-intro-shown') === '1';
+      } catch {
+        return false;
+      }
+    })();
+
+    const remove = () => {
+      curtain.remove();
+      document.body.classList.remove('scroll-lock');
+    };
+
+    if (reduceMotion || alreadySeen) {
+      remove();
+      return;
+    }
+
+    try {
+      sessionStorage.setItem('sr-intro-shown', '1');
+    } catch {
+      /* ignore — private browsing etc. */
+    }
+
+    document.body.classList.add('scroll-lock');
+
+    requestAnimationFrame(() => {
+      curtain.classList.add('curtain--mark-in');
+    });
+
+    const hideAfter = window.setTimeout(() => {
+      curtain.classList.add('curtain--hide');
+    }, 650);
+
+    curtain.addEventListener('transitionend', (event) => {
+      if (event.propertyName === 'transform') remove();
+    });
+
+    // Safety net in case a transitionend never fires (e.g. tab backgrounded).
+    window.setTimeout(remove, 2200);
+    window.addEventListener('beforeunload', () => window.clearTimeout(hideAfter));
+  })();
+</script>

@@ -39,7 +39,12 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="site-footer__bottom-rule">
-    <div class="container site-footer__copyright">© {year} Stellies Removals. All rights reserved.</div>
+    <div class="container site-footer__bottom">
+      <span class="site-footer__copyright">© {year} Stellies Removals. All rights reserved.</span>
+      <a href="https://ewosolutions.com" target="_blank" rel="noopener" class="site-footer__credit">
+        Developed by EWO
+      </a>
+    </div>
   </div>
 </footer>
 
@@ -100,10 +105,26 @@ const year = new Date().getFullYear();
     border-top: 2px solid var(--footer-rule);
   }
 
-  .site-footer__copyright {
+  .site-footer__bottom {
     padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .site-footer__copyright {
     font-size: 14px;
     color: var(--footer-fine);
+  }
+
+  .site-footer__credit {
+    font-size: 14px;
+    color: var(--footer-fine);
+  }
+  .site-footer__credit:hover {
+    color: var(--white);
   }
 
   @media (max-width: 900px) {
@@ -112,7 +133,7 @@ const year = new Date().getFullYear();
       gap: 32px;
       padding: 40px 20px;
     }
-    .site-footer__copyright {
+    .site-footer__bottom {
       padding: 16px 20px;
     }
   }

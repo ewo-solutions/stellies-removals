@@ -20,11 +20,11 @@ const steps = [
 
 <section class="steps">
   <div class="container">
-    <h2 class="steps__heading">Three steps, no stress</h2>
+    <h2 class="steps__heading" data-reveal>Three steps, no stress</h2>
     <div class="steps__grid">
       {
-        steps.map((step) => (
-          <div class="step">
+        steps.map((step, index) => (
+          <div class="step" data-reveal style={`--reveal-delay: ${index * 100}ms`}>
             <div class="step__number">{step.number}</div>
             <h3 class="step__title">{step.title}</h3>
             <p class="step__desc">{step.description}</p>
