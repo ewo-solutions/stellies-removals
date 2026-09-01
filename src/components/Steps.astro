@@ -1,0 +1,101 @@
+---
+const steps = [
+  {
+    number: '1',
+    title: 'Message us on WhatsApp',
+    description: 'Tell us what needs moving and when. Send photos of the bigger items and we quote from there.',
+  },
+  {
+    number: '2',
+    title: 'Meet the team',
+    description: 'Our crew arrives on time, wraps and loads with care, and handles every part of the move professionally.',
+  },
+  {
+    number: '3',
+    title: 'Settle in',
+    description: 'We place everything where it belongs and reassemble what we took apart. You unpack a home, not a problem.',
+  },
+];
+---
+
+<section class="steps">
+  <div class="container">
+    <h2 class="steps__heading">Three steps, no stress</h2>
+    <div class="steps__grid">
+      {
+        steps.map((step) => (
+          <div class="step">
+            <div class="step__number">{step.number}</div>
+            <h3 class="step__title">{step.title}</h3>
+            <p class="step__desc">{step.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps {
+    border-bottom: var(--rule);
+  }
+  .steps .container {
+    padding-block: 72px;
+  }
+
+  .steps__heading {
+    margin: 0 0 40px;
+    font-family: var(--font-heading);
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .steps__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .step {
+    border-top: 2px solid var(--maroon);
+    padding-top: 20px;
+  }
+
+  .step__number {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--maroon);
+    line-height: 1;
+  }
+
+  .step__title {
+    margin: 12px 0 8px;
+    font-family: var(--font-heading);
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  .step__desc {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--body-grey);
+  }
+
+  @media (max-width: 900px) {
+    .steps .container {
+      padding-block: 48px;
+    }
+    .steps__heading {
+      font-size: 32px;
+      margin-bottom: 28px;
+    }
+    .steps__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

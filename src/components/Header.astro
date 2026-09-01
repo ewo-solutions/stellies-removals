@@ -1,0 +1,112 @@
+---
+import Logo from './Logo.astro';
+import PhoneIcon from './icons/PhoneIcon.astro';
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import { PHONE_DISPLAY, PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="site-header__logo" aria-label="Stellies Removals home">
+      <Logo width={274} height={67} />
+    </a>
+    <span class="badge">Now in Paarl</span>
+    <div class="site-header__spacer"></div>
+    <a href={`tel:${PHONE_TEL}`} class="site-header__phone">
+      <PhoneIcon size={18} class="site-header__phone-icon" />
+      {PHONE_DISPLAY}
+    </a>
+    <a
+      href={waLink(WA_MESSAGE_DEFAULT)}
+      target="_blank"
+      rel="noopener"
+      class="btn btn--whatsapp btn--header"
+      data-wa-source="header"
+    >
+      <WhatsAppIcon size={18} />
+      WhatsApp us
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--white);
+    border-bottom: var(--rule);
+  }
+
+  .site-header__inner {
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .site-header__logo {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    background: var(--maroon);
+    color: var(--white);
+    padding: 7px 12px;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .site-header__spacer {
+    flex: 1;
+  }
+
+  .site-header__phone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+  }
+  .site-header__phone:hover {
+    color: var(--ink);
+  }
+  .site-header__phone-icon {
+    color: var(--maroon);
+  }
+
+  .btn--header {
+    font-size: 15px;
+    padding: 13px 22px;
+  }
+
+  @media (max-width: 900px) {
+    .site-header__inner {
+      padding: 12px 20px;
+      gap: 14px;
+    }
+    .site-header__logo :global(svg) {
+      width: 190px;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .badge,
+    .site-header__phone {
+      display: none;
+    }
+    .btn--header {
+      padding: 11px 16px;
+      font-size: 13px;
+    }
+  }
+</style>

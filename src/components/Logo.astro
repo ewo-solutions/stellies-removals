@@ -1,0 +1,59 @@
+---
+// Stellies Removals wordmark + schematic truck mark, recreated verbatim as
+// inline SVG per the design handoff. `variant="light"` is the default
+// on-white lockup; `variant="dark"` is the inverted footer treatment.
+// `withPhone` renders the standalone lockup used on the print/brand sheet.
+interface Props {
+  variant?: 'light' | 'dark';
+  width?: number;
+  height?: number;
+  withPhone?: boolean;
+  class?: string;
+}
+
+const { variant = 'light', width = 274, height = 67, withPhone = false, class: className } = Astro.props;
+
+const lineStroke = variant === 'light' ? '#58585a' : '#b9b6b3';
+const maroonStroke = '#9c1150';
+const footerAccent = '#d4749f';
+const accentStroke = variant === 'light' ? maroonStroke : footerAccent;
+const stelliesFill = variant === 'light' ? '#9c1150' : '#d4749f';
+const removalsFill = variant === 'light' ? '#58585a' : '#e8e6e4';
+
+const viewBox = withPhone ? '0 0 812 300' : '0 0 812 200';
+---
+
+<svg
+  viewBox={viewBox}
+  width={width}
+  height={height}
+  role="img"
+  aria-label={withPhone ? 'Stellies Removals, 072 500 8900' : 'Stellies Removals'}
+  class={className}
+>
+  <g stroke={lineStroke} stroke-width="8" fill="none">
+    <line x1="298" y1="22" x2="472" y2="22"></line>
+    <line x1="200" y1="72" x2="452" y2="72"></line>
+    <line x1="156" y1="98" x2="578" y2="98"></line>
+  </g>
+  <line x1="246" y1="47" x2="452" y2="47" stroke={accentStroke} stroke-width="8"></line>
+  <path d="M470 14 H552 L578 52 V94 H470 Z" fill="none" stroke={lineStroke} stroke-width="7"></path>
+  <path d="M492 34 H548 V56 H536 V44 H492 Z" fill="none" stroke={lineStroke} stroke-width="7"></path>
+  <text
+    x="18"
+    y="182"
+    font-family="Mulish, sans-serif"
+    font-style="italic"
+    font-weight="600"
+    font-size="100"
+    letter-spacing="-2"
+  ><tspan fill={stelliesFill}>Stellies</tspan><tspan fill={removalsFill} font-weight="500"> Removals</tspan></text>
+  {withPhone && (
+    <>
+      <g transform="translate(133, 222)" fill="none" stroke="#c9c8c8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2h9l4.5 11.2-5.6 3.4a24.8 24.8 0 0 0 11.1 11.1l3.4-5.6L39 26.6v9a4.5 4.5 0 0 1-4.9 4.5A40 40 0 0 1 1.5 6.9A4.5 4.5 0 0 1 6 2z" transform="scale(1.05)"></path>
+      </g>
+      <text x="206" y="272" font-family="Assistant, sans-serif" font-size="57" fill="#3f3f41">072 500 8900</text>
+    </>
+  )}
+</svg>

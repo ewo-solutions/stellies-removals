@@ -1,0 +1,125 @@
+---
+import Logo from './Logo.astro';
+import { PHONE_DISPLAY, PHONE_INTL_DISPLAY, PHONE_TEL, EMAIL, waLink } from '../lib/contact';
+
+const services = ['Home removals', 'Office relocations', 'Packing', 'Dismantling & assembling', 'Hoisting'];
+const areas = ['Paarl & Wellington', 'Stellenbosch', 'Somerset West', 'Cape Town & Durbanville'];
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <a href="/" aria-label="Stellies Removals home">
+        <Logo variant="dark" width={265} height={65} />
+      </a>
+      <p class="site-footer__tagline">
+        Furniture removals, packing and hoisting — now with a dedicated crew based in Paarl.
+      </p>
+    </div>
+    <div>
+      <h4 class="site-footer__heading">Contact</h4>
+      <div class="site-footer__list">
+        <a href={waLink()} target="_blank" rel="noopener">WhatsApp {PHONE_DISPLAY}</a>
+        <a href={`tel:${PHONE_TEL}`}>{PHONE_INTL_DISPLAY}</a>
+        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="site-footer__heading">Services</h4>
+      <div class="site-footer__list site-footer__list--muted">
+        {services.map((service) => <span>{service}</span>)}
+      </div>
+    </div>
+    <div>
+      <h4 class="site-footer__heading">Areas served</h4>
+      <div class="site-footer__list site-footer__list--muted">
+        {areas.map((area) => <span>{area}</span>)}
+      </div>
+    </div>
+  </div>
+  <div class="site-footer__bottom-rule">
+    <div class="container site-footer__copyright">© {year} Stellies Removals. All rights reserved.</div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--footer-body);
+  }
+
+  .site-footer__grid {
+    padding: 56px 32px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .site-footer__tagline {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--footer-muted);
+    max-width: 26em;
+  }
+
+  .site-footer__heading {
+    margin: 0 0 14px;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .site-footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+  }
+  .site-footer__list a {
+    color: var(--footer-body);
+  }
+  .site-footer__list a:hover {
+    color: var(--white);
+  }
+
+  .site-footer__list--muted {
+    color: var(--footer-muted);
+  }
+
+  .site-footer__bottom-rule {
+    border-top: 2px solid var(--footer-rule);
+  }
+
+  .site-footer__copyright {
+    padding: 20px 32px;
+    font-size: 14px;
+    color: var(--footer-fine);
+  }
+
+  @media (max-width: 900px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 40px 20px;
+    }
+    .site-footer__copyright {
+      padding: 16px 20px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

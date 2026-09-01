@@ -1,0 +1,51 @@
+---
+const estates = ['Val de Vie', 'Welgevonden Estate', 'De Zalze', 'Nooitgedacht Village', 'Longlands', 'Technopark'];
+---
+
+<section class="trust-bar">
+  <div class="container trust-bar__inner">
+    <span class="trust-bar__label">Trusted by leading estates &amp; companies</span>
+    <div class="trust-bar__names">
+      {estates.map((name) => <span>{name}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-bar {
+    background: var(--light-ground);
+    border-bottom: var(--rule);
+  }
+
+  .trust-bar__inner {
+    padding: 26px 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .trust-bar__label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-grey);
+  }
+
+  .trust-bar__names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 32px;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .trust-bar__inner {
+      padding: 20px;
+    }
+  }
+</style>

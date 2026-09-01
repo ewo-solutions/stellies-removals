@@ -1,0 +1,229 @@
+---
+import { Image } from 'astro:assets';
+import homeRemovalsImg from '../assets/images/home-removals.jpg';
+import officeRelocationImg from '../assets/images/office-relocation.jpg';
+import packingImg from '../assets/images/packing.jpg';
+import hoistingImg from '../assets/images/hoisting.jpg';
+import { waLink, WA_MESSAGE_BY_SERVICE } from '../lib/contact';
+
+const services = [
+  {
+    number: '01',
+    title: 'Home removals',
+    description: 'Relocate your household with a crew that wraps, loads and places every item with care.',
+    image: homeRemovalsImg,
+    alt: 'Crew loading a household move',
+    message: WA_MESSAGE_BY_SERVICE.home,
+    source: 'card-01',
+  },
+  {
+    number: '02',
+    title: 'Office relocations',
+    description: 'Move your business with minimal downtime — planned around your operating hours.',
+    image: officeRelocationImg,
+    alt: 'Office move on a city street',
+    message: WA_MESSAGE_BY_SERVICE.office,
+    source: 'card-02',
+  },
+  {
+    number: '03',
+    title: 'Packing',
+    description: 'We pack and unpack for you, with proper materials and an inventory you can check.',
+    image: packingImg,
+    alt: 'Wrapping a table before transport',
+    message: WA_MESSAGE_BY_SERVICE.packing,
+    source: 'card-03',
+  },
+  {
+    number: '04',
+    title: 'Hoisting',
+    description: 'Professional hoisting for large or bulky items that cannot pass stairs, lifts or narrow access.',
+    image: hoistingImg,
+    alt: 'Hoisting a bundle up a building',
+    message: WA_MESSAGE_BY_SERVICE.hoisting,
+    source: 'card-04',
+  },
+];
+---
+
+<section class="services">
+  <div class="container services__header">
+    <h2 class="services__heading">Expert removals services in Paarl</h2>
+    <p class="services__sub">
+      Residential and office moves with professional packing, dismantling and hoisting. One team, start to finish.
+    </p>
+  </div>
+  <div class="container services__grid">
+    {
+      services.map((service) => (
+        <article class="service-card">
+          <div class="service-card__image">
+            <Image src={service.image} alt={service.alt} width={480} height={360} />
+          </div>
+          <div class="service-card__body">
+            <div class="service-card__number">{service.number}</div>
+            <h3 class="service-card__title">{service.title}</h3>
+            <p class="service-card__desc">{service.description}</p>
+            <div class="service-card__spacer" />
+            <a
+              href={waLink(service.message)}
+              target="_blank"
+              rel="noopener"
+              class="service-card__link"
+              data-wa-source={service.source}
+            >
+              WhatsApp for a quote →
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .services {
+    border-bottom: var(--rule);
+  }
+
+  .services__header {
+    padding: 72px 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+    padding-bottom: 40px;
+  }
+
+  .services__heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .services__sub {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--body-grey);
+  }
+
+  .services__grid {
+    padding: 0 32px 72px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: var(--rule);
+  }
+
+  .service-card {
+    border-right: var(--rule);
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+  }
+  .service-card:hover {
+    background: var(--light-ground);
+  }
+  .service-card:last-child {
+    border-right: none;
+  }
+
+  .service-card__image {
+    height: 180px;
+    overflow: hidden;
+    border-bottom: var(--rule);
+  }
+  .service-card__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .service-card__body {
+    padding: 26px 26px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .service-card__number {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--maroon);
+    letter-spacing: 0.1em;
+  }
+
+  .service-card__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  .service-card__desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--body-grey);
+  }
+
+  .service-card__spacer {
+    flex: 1;
+  }
+
+  .service-card__link {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--whatsapp);
+  }
+  .service-card__link:hover {
+    color: var(--whatsapp-dark);
+  }
+
+  @media (max-width: 900px) {
+    .services__header {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 48px 20px 0;
+      padding-bottom: 32px;
+    }
+    .services__heading {
+      font-size: 32px;
+    }
+    .services__grid {
+      grid-template-columns: 1fr 1fr;
+      padding: 0 20px 48px;
+    }
+    .service-card {
+      border-right: var(--rule);
+    }
+    .service-card:nth-child(2n) {
+      border-right: none;
+    }
+    .service-card:nth-child(-n + 2) {
+      border-bottom: var(--rule);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .services__grid {
+      grid-template-columns: 1fr;
+    }
+    .service-card {
+      border-right: none !important;
+      border-bottom: var(--rule);
+    }
+    .service-card:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

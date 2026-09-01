@@ -1,0 +1,57 @@
+---
+// Fixed bottom-of-viewport WhatsApp bar for mobile — suggested in the
+// design handoff since the whole page pushes toward a phone-native action.
+// Hidden on desktop; only takes over once the header CTA is less reachable.
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import { waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+---
+
+<a
+  href={waLink(WA_MESSAGE_DEFAULT)}
+  target="_blank"
+  rel="noopener"
+  class="mobile-wa-bar"
+  data-wa-source="mobile-sticky-bar"
+>
+  <WhatsAppIcon size={20} />
+  WhatsApp for a quote
+</a>
+
+<style>
+  .mobile-wa-bar {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .mobile-wa-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      background: var(--whatsapp);
+      color: var(--white);
+      border-top: var(--rule);
+      padding: 14px 20px;
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .mobile-wa-bar:hover {
+      background: var(--whatsapp-dark);
+      color: var(--white);
+    }
+
+    /* Keep the fixed bar from covering the last section's content. */
+    :global(body) {
+      padding-bottom: 60px;
+    }
+  }
+</style>

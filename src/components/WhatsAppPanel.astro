@@ -1,0 +1,152 @@
+---
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import { waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+
+const checks = ['Same working day response', 'Fixed, written quote — no surprises', 'Fully equipped crew and vehicles'];
+---
+
+<section id="whatsapp" class="wa-panel">
+  <div class="container wa-panel__grid">
+    <div>
+      <p class="wa-panel__eyebrow">Quotes in minutes, not days</p>
+      <h2 class="wa-panel__heading">Send us a WhatsApp and we will quote your Paarl move</h2>
+      <p class="wa-panel__lead">
+        No forms, no waiting. Message the address you are moving from and to, your date, and a few photos.
+      </p>
+      <div class="wa-panel__checks">
+        {
+          checks.map((check) => (
+            <div class="wa-panel__check">
+              <span class="wa-panel__check-mark">✓</span> {check}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="wa-panel__card">
+      <WhatsAppIcon size={44} class="wa-panel__card-icon" />
+      <h3 class="wa-panel__card-heading">Chat to the Paarl crew</h3>
+      <p class="wa-panel__card-hours">Weekdays 07:00–18:00, Saturdays 08:00–13:00.</p>
+      <a
+        href={waLink(WA_MESSAGE_DEFAULT)}
+        target="_blank"
+        rel="noopener"
+        class="btn btn--whatsapp"
+        data-wa-source="panel"
+      >
+        <WhatsAppIcon size={22} />
+        Start a WhatsApp chat
+      </a>
+      <span class="wa-panel__card-alt">Or call 072 500 8900 if you prefer to talk.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wa-panel {
+    background: var(--light-ground);
+    border-bottom: var(--rule);
+  }
+
+  .wa-panel__grid {
+    padding: 72px 32px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .wa-panel__eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--maroon);
+    margin: 0 0 14px;
+  }
+
+  .wa-panel__heading {
+    margin: 0 0 20px;
+    font-family: var(--font-heading);
+    font-size: 44px;
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  .wa-panel__lead {
+    margin: 0 0 32px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--body-grey);
+  }
+
+  .wa-panel__checks {
+    border-top: var(--rule);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .wa-panel__check {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 16px;
+    color: var(--body-grey);
+  }
+
+  .wa-panel__check-mark {
+    color: var(--maroon);
+    font-weight: 700;
+  }
+
+  .wa-panel__card {
+    background: var(--white);
+    border: var(--rule);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .wa-panel__card-icon {
+    color: var(--whatsapp);
+  }
+
+  .wa-panel__card-heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .wa-panel__card-hours {
+    margin: 0;
+    font-size: 17px;
+    color: var(--body-grey);
+  }
+
+  .wa-panel__card-alt {
+    font-size: 14px;
+    color: var(--muted-grey);
+  }
+
+  @media (max-width: 900px) {
+    .wa-panel__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 48px 20px;
+    }
+    .wa-panel__heading {
+      font-size: 32px;
+    }
+    .wa-panel__card {
+      padding: 28px;
+    }
+  }
+</style>

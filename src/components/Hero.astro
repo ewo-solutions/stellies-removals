@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import heroImage from '../assets/images/hero-truck-bw.jpg';
+import { PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+---
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow"><span class="eyebrow__dash"></span>Paarl · Wellington · Boland</p>
+      <h1 class="hero__heading">Furniture removals in <span class="hero__accent">Paarl</span>, done properly.</h1>
+      <p class="hero__lead">
+        Stellies Removals now runs a dedicated crew in Paarl. Local moves across town, and long-distance to
+        Stellenbosch, Somerset West, Durbanville and Cape Town.
+      </p>
+      <div class="hero__actions">
+        <a
+          href={waLink(WA_MESSAGE_DEFAULT)}
+          target="_blank"
+          rel="noopener"
+          class="btn btn--whatsapp"
+          data-wa-source="hero"
+        >
+          <WhatsAppIcon size={21} />
+          Get my quote on WhatsApp
+        </a>
+        <a href={`tel:${PHONE_TEL}`} class="btn btn--outline-ink">Call us now</a>
+      </div>
+      <p class="hero__fine-print">Send a photo of what needs moving. Free quote, same working day.</p>
+    </div>
+    <div class="hero__image">
+      <Image src={heroImage} alt="Stellies Removals truck and trailer" width={900} height={900} loading="eager" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    border-bottom: var(--rule);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr minmax(0, 1fr);
+  }
+
+  .hero__copy {
+    min-width: 0;
+    padding: 64px 48px 64px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+  }
+
+  .hero__heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 62px;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    text-wrap: pretty;
+  }
+
+  .hero__accent {
+    color: var(--maroon);
+  }
+
+  .hero__lead {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--body-grey);
+    max-width: 30em;
+    text-wrap: pretty;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-top: 4px;
+  }
+
+  .hero__fine-print {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted-grey);
+  }
+
+  .hero__image {
+    border-left: var(--rule);
+    position: relative;
+    min-width: 0;
+    min-height: 520px;
+  }
+  .hero__image :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__copy {
+      padding: 40px 20px;
+      gap: 20px;
+    }
+    .hero__heading {
+      font-size: 40px;
+      letter-spacing: -0.02em;
+    }
+    .hero__image {
+      border-left: none;
+      border-top: var(--rule);
+      min-height: 280px;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__heading {
+      font-size: 34px;
+    }
+    .hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero__actions :global(.btn) {
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,185 @@
+/* =========================================================================
+   Stellies Removals — Paarl landing page
+   "Modernist" design system tokens: flat, architectural, Archivo throughout,
+   zero border radius anywhere, 2px rules between sections, flush-left type.
+   ========================================================================= */
+
+:root {
+  /* Color */
+  --ink: #201e1d;
+  --maroon: #9c1150;
+  --maroon-dark: #7d0d40;
+  --whatsapp: #128c7e;
+  --whatsapp-dark: #0e6f64;
+  --body-grey: #46433f;
+  --muted-grey: #6e6a66;
+  --light-ground: #f3f2f2;
+  --white: #ffffff;
+  --logo-grey: #58585a;
+  --banner-tint: #f6e6ee;
+  --footer-body: #e8e6e4;
+  --footer-muted: #a9a5a1;
+  --footer-rule: #3a3735;
+  --footer-fine: #8d8985;
+
+  /* Type */
+  --font-heading: 'Archivo', sans-serif;
+  --font-body: 'Archivo', sans-serif;
+
+  /* Structure */
+  --container-max: 1200px;
+  --container-pad: 32px;
+  --rule: 2px solid var(--ink);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--maroon);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--maroon-dark);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+}
+
+/* No rounded corners anywhere in this design system — enforced globally. */
+* {
+  border-radius: 0 !important;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--container-pad);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Buttons ---------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 2px solid transparent;
+}
+
+.btn--whatsapp {
+  background: var(--whatsapp);
+  color: var(--white);
+  padding: 17px 30px;
+  font-size: 16px;
+}
+.btn--whatsapp:hover {
+  background: var(--whatsapp-dark);
+  color: var(--white);
+}
+
+.btn--outline-ink {
+  border-color: var(--ink);
+  color: var(--ink);
+  padding: 15px 28px;
+  font-size: 16px;
+}
+.btn--outline-ink:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.btn--outline-white {
+  border-color: var(--white);
+  color: var(--white);
+  padding: 16px 30px;
+  font-size: 17px;
+}
+.btn--outline-white:hover {
+  background: var(--white);
+  color: var(--maroon);
+}
+
+.btn--white {
+  background: var(--white);
+  color: var(--whatsapp);
+  padding: 18px 32px;
+  font-size: 17px;
+}
+.btn--white:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+.eyebrow__dash {
+  width: 28px;
+  height: 2px;
+  background: var(--maroon);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Responsive helpers ------------------------------------------------------
+   The reference design is desktop-only (1200px container); breakpoints
+   below implement the handoff's suggested mobile approach: single-column
+   grids, hero image below copy, compressed header, stacked cards. */
+
+@media (max-width: 900px) {
+  :root {
+    --container-pad: 20px;
+  }
+}

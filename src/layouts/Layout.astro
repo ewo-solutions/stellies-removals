@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import { PHONE_TEL, WHATSAPP_NUMBER, EMAIL } from '../lib/contact';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'MovingCompany',
+  name: 'Stellies Removals',
+  image: `${Astro.site}og-image.jpg`,
+  telephone: PHONE_TEL,
+  email: EMAIL,
+  areaServed: [
+    { '@type': 'City', name: 'Paarl' },
+    { '@type': 'City', name: 'Wellington' },
+    { '@type': 'City', name: 'Stellenbosch' },
+    { '@type': 'City', name: 'Somerset West' },
+    { '@type': 'City', name: 'Durbanville' },
+    { '@type': 'City', name: 'Cape Town' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Paarl',
+    addressRegion: 'Western Cape',
+    addressCountry: 'ZA',
+  },
+  sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`],
+  makesOffer: [
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Home removals' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Office relocations' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Packing' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hoisting' } },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Mulish:ital,wght@1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // Fire a provider-agnostic click event on every WhatsApp CTA so
+      // whichever analytics tool is wired up later (GTM/GA4/etc.) can
+      // report which position on the page converts. No-ops if no
+      // analytics layer is present.
+      document.addEventListener('click', (event) => {
+        const target = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('[data-wa-source]');
+        if (!target) return;
+        const source = target.getAttribute('data-wa-source');
+        const w = window as unknown as { dataLayer?: unknown[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({ event: 'whatsapp_click', wa_source: source });
+      });
+    </script>
+  </body>
+</html>
