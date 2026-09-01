@@ -37,8 +37,11 @@ color/type tokens, section-by-section layout, copy, and interaction notes.
 
 Key decisions carried over from the handoff:
 
-- **Brand contact details live in one place** (`src/lib/contact.ts`). If the
-  Paarl operation gets its own WhatsApp number, update it there.
+- **One phone/WhatsApp number, everywhere.** `072 500 8900` is the same
+  number for the parent business and the Paarl operation — no per-branch
+  number, confirmed with the client. It's still centralized in
+  `src/lib/contact.ts` as the single source of truth, so any future change
+  only needs to happen in one place.
 - **No client state** — the page is fully static; every interaction is a link
   (`wa.me/...` or `tel:`).
 - **Zero border radius, 2px rules, flush-left type** — enforced globally in
@@ -51,12 +54,12 @@ Key decisions carried over from the handoff:
 - **WhatsApp click analytics**: every CTA carries a `data-wa-source`
   attribute and pushes a `whatsapp_click` event (with that source) to
   `window.dataLayer` — wire up GTM/GA4 to capture which position converts.
+- **Photography kept as supplied** — the six client photos (including the
+  COVID-era shots with masks) are used as-is, no grayscale filter applied.
+  Confirmed with the client; no further action needed.
 
 ## Open items for the client (from the design handoff)
 
-- Confirm the phone number, trading hours, and the trust-bar estate list
-  still apply to the Paarl operation.
-- Some source photos date to the COVID period (crew wearing masks) — confirm
-  whether to replace before launch.
-- Confirm whether to apply grayscale to the color photos for full design
-  system fidelity, or keep them as shot (current choice: keep as shot).
+- Confirm the trading hours in the chat card ("Weekdays 07:00–18:00,
+  Saturdays 08:00–13:00") and the trust-bar estate list still apply to the
+  Paarl operation.
