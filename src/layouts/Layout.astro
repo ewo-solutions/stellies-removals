@@ -17,19 +17,35 @@ const structuredData = {
   image: `${Astro.site}og-image.jpg`,
   telephone: PHONE_TEL,
   email: EMAIL,
+  // Removals run within a ~200km radius of Paarl — the GeoCircle covers
+  // that generally, with named cities kept for local-search matching on
+  // the specific towns the client calls out most often.
   areaServed: [
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: { '@type': 'GeoCoordinates', latitude: -33.7098, longitude: 18.9623 },
+      geoRadius: '200000',
+    },
     { '@type': 'City', name: 'Paarl' },
     { '@type': 'City', name: 'Wellington' },
     { '@type': 'City', name: 'Stellenbosch' },
     { '@type': 'City', name: 'Somerset West' },
     { '@type': 'City', name: 'Durbanville' },
     { '@type': 'City', name: 'Cape Town' },
+    { '@type': 'City', name: 'Gansbaai' },
+    { '@type': 'City', name: 'Swellendam' },
+    { '@type': 'City', name: 'St Helena Bay' },
   ],
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Paarl',
     addressRegion: 'Western Cape',
     addressCountry: 'ZA',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -33.7098,
+    longitude: 18.9623,
   },
   sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`],
   makesOffer: [
