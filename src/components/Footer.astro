@@ -15,8 +15,8 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
-      <a href="/" aria-label="Stellies Removals home">
-        <Logo variant="dark" width={265} height={65} />
+      <a href="/" class="site-footer__logo-plate" aria-label="Stellies Removals home">
+        <Logo width={220} />
       </a>
       <p class="site-footer__tagline">
         Furniture removals, packing and hoisting — now with a dedicated crew based in Paarl.
@@ -70,6 +70,16 @@ const year = new Date().getFullYear();
     display: flex;
     flex-direction: column;
     gap: 18px;
+  }
+
+  /* The real logo has no reversed/light colorway, so it sits on a flush
+     white rectangle rather than directly on the dark footer — no radius,
+     no gradient, in keeping with the flat design system. */
+  .site-footer__logo-plate {
+    display: inline-flex;
+    align-self: flex-start;
+    background: var(--white);
+    padding: 14px 18px;
   }
 
   .site-footer__tagline {

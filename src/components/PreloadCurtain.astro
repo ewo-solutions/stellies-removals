@@ -8,7 +8,7 @@ import Logo from './Logo.astro';
 
 <div id="preload-curtain" class="curtain" aria-hidden="true">
   <div class="curtain__mark">
-    <Logo variant="dark" width={220} height={54} />
+    <Logo width={220} />
   </div>
 </div>
 
@@ -32,6 +32,10 @@ import Logo from './Logo.astro';
   }
 
   .curtain__mark {
+    /* Same flush white plate as the footer — the real logo has no reversed
+       colorway for the dark curtain background. */
+    background: var(--white);
+    padding: 16px 20px;
     opacity: 0;
     transform: translateY(10px) scale(0.98);
   }
