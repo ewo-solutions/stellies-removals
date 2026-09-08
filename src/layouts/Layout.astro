@@ -93,6 +93,22 @@ const structuredData = {
 
       gtag('config', 'AW-628744913');
     </script>
+
+    <!-- Event snippet for Phone Call conversion page -->
+    <script is:inline>
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof url != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+          send_to: 'AW-628744913/tN8uCJ3gn5wYENHF56sC',
+          event_callback: callback,
+        });
+        return false;
+      }
+    </script>
   </head>
   <body>
     <slot />
@@ -109,6 +125,21 @@ const structuredData = {
         const w = window as unknown as { dataLayer?: unknown[] };
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({ event: 'whatsapp_click', wa_source: source });
+      });
+    </script>
+
+    <script>
+      // Report a Google Ads "Phone Call" conversion on every tel: link
+      // (header, hero, closing banner, footer), then complete the call as
+      // normal. No-ops if gtag_report_conversion hasn't loaded (blocked
+      // script, offline, etc.) so the tel: link still works untouched.
+      document.addEventListener('click', (event) => {
+        const link = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('a[href^="tel:"]');
+        if (!link) return;
+        const w = window as unknown as { gtag_report_conversion?: (url?: string) => boolean };
+        if (typeof w.gtag_report_conversion !== 'function') return;
+        event.preventDefault();
+        w.gtag_report_conversion(link.href);
       });
     </script>
 
