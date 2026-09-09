@@ -114,17 +114,26 @@ const structuredData = {
     <slot />
 
     <script>
-      // Fire a provider-agnostic click event on every WhatsApp CTA so
-      // whichever analytics tool is wired up later (GTM/GA4/etc.) can
-      // report which position on the page converts. No-ops if no
-      // analytics layer is present.
+      // Every WhatsApp CTA: push a provider-agnostic dataLayer event (source
+      // by position, for GTM/GA4 later) and report the same Google Ads
+      // conversion used for phone calls — the client only has the one
+      // conversion action set up, covering both contact routes for now.
+      // WhatsApp links open in a new tab (target="_blank"), so — unlike the
+      // tel: handler — we never preventDefault or redirect the current tab:
+      // call gtag_report_conversion with no url, which fires the conversion
+      // ping and skips its navigation callback, leaving the new-tab open
+      // exactly as it would without this listener.
       document.addEventListener('click', (event) => {
         const target = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('[data-wa-source]');
         if (!target) return;
         const source = target.getAttribute('data-wa-source');
-        const w = window as unknown as { dataLayer?: unknown[] };
+        const w = window as unknown as {
+          dataLayer?: unknown[];
+          gtag_report_conversion?: (url?: string) => boolean;
+        };
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({ event: 'whatsapp_click', wa_source: source });
+        w.gtag_report_conversion?.();
       });
     </script>
 
