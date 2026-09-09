@@ -16,7 +16,7 @@ export function waLink(message?: string): string {
   return `${WA_BASE}?text=${encodeURIComponent(message)}`;
 }
 
-export const WA_MESSAGE_DEFAULT = "Hi Stellies Removals, I'd like a quote for a move in Paarl.";
+export const WA_MESSAGE_DEFAULT = "Hi Stellies Removals - I found you on Google. I'd like a quote for a move.";
 
 export const WA_MESSAGE_BY_SERVICE = {
   home: 'Hi, I need a quote for a home removal in Paarl.',
