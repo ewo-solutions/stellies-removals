@@ -9,8 +9,8 @@
   --ink: #201e1d;
   --maroon: #9c1150;
   --maroon-dark: #7d0d40;
-  --whatsapp: #128c7e;
-  --whatsapp-dark: #0e6f64;
+  --primary: #128c7e; /* the site's one action color — formerly WhatsApp-specific, now the CTA green throughout */
+  --primary-dark: #0e6f64;
   --body-grey: #46433f;
   --muted-grey: #6e6a66;
   --light-ground: #f3f2f2;
@@ -133,14 +133,14 @@ button:focus-visible {
   transform: translateY(0);
 }
 
-.btn--whatsapp {
-  background: var(--whatsapp);
+.btn--primary {
+  background: var(--primary);
   color: var(--white);
   padding: 17px 30px;
   font-size: 16px;
 }
-.btn--whatsapp:hover {
-  background: var(--whatsapp-dark);
+.btn--primary:hover {
+  background: var(--primary-dark);
   color: var(--white);
 }
 
@@ -168,7 +168,7 @@ button:focus-visible {
 
 .btn--white {
   background: var(--white);
-  color: var(--whatsapp);
+  color: var(--primary);
   padding: 18px 32px;
   font-size: 17px;
 }
@@ -193,6 +193,67 @@ button:focus-visible {
   background: var(--maroon);
   display: block;
   flex-shrink: 0;
+}
+
+/* Form fields -------------------------------------------------------------
+   Flat, same 2px-rule language as everything else — no rounded corners,
+   no soft shadows on focus. */
+
+.field-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.field-label__optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--muted-grey);
+}
+
+.field {
+  width: 100%;
+  display: block;
+  border: 2px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  padding: 13px 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.field::placeholder {
+  color: var(--muted-grey);
+}
+.field:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+}
+textarea.field {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Honeypot — visually hidden, never in tab order, but still present in
+   the DOM/markup for bots that don't run JS or respect CSS. */
+.field-trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Responsive helpers ------------------------------------------------------

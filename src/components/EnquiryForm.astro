@@ -1,0 +1,309 @@
+---
+import SendIcon from './icons/SendIcon.astro';
+import { PHONE_DISPLAY, PHONE_TEL, SERVICES } from '../lib/contact';
+
+const checks = ['Same working day response', 'Fixed, written quote — no surprises', 'Fully equipped crew and vehicles'];
+---
+
+<section id="enquiry" class="enquiry">
+  <div class="container enquiry__grid">
+    <div data-reveal>
+      <p class="enquiry__eyebrow">Free quotes, fast turnaround</p>
+      <h2 class="enquiry__heading">Tell us about your move and we&rsquo;ll quote it</h2>
+      <p class="enquiry__lead">
+        A few details about the move — where from, where to, and when — and we&rsquo;ll come back with a written
+        quote.
+      </p>
+      <div class="enquiry__checks">
+        {
+          checks.map((check) => (
+            <div class="enquiry__check">
+              <span class="enquiry__check-mark">✓</span> {check}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="enquiry__card" data-reveal style="--reveal-delay: 120ms">
+      <h3 class="enquiry__card-heading">Request your free quote</h3>
+
+      <form id="enquiry-form" class="enquiry__form" method="post" action="/api/enquiry" novalidate>
+        <!-- Honeypot: hidden from real visitors, bots tend to fill in every field. -->
+        <div class="field-trap" aria-hidden="true">
+          <label for="ef-website">Leave this field empty</label>
+          <input type="text" id="ef-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label" for="ef-name">Full name</label>
+            <input class="field" type="text" id="ef-name" name="name" autocomplete="name" required />
+          </div>
+          <div>
+            <label class="field-label" for="ef-phone">Phone number</label>
+            <input class="field" type="tel" id="ef-phone" name="phone" autocomplete="tel" required />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label" for="ef-email">Email <span class="field-label__optional">(optional)</span></label>
+            <input class="field" type="email" id="ef-email" name="email" autocomplete="email" />
+          </div>
+          <div>
+            <label class="field-label" for="ef-date"
+              >Moving date <span class="field-label__optional">(optional)</span></label
+            >
+            <input class="field" type="date" id="ef-date" name="moveDate" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label" for="ef-from"
+              >Moving from <span class="field-label__optional">(optional)</span></label
+            >
+            <input class="field" type="text" id="ef-from" name="movingFrom" placeholder="Suburb or address" />
+          </div>
+          <div>
+            <label class="field-label" for="ef-to"
+              >Moving to <span class="field-label__optional">(optional)</span></label
+            >
+            <input class="field" type="text" id="ef-to" name="movingTo" placeholder="Suburb or address" />
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label" for="ef-service">What do you need?</label>
+          <select class="field" id="ef-service" name="service">
+            <option value="General enquiry">General enquiry</option>
+            {SERVICES.map((service) => <option value={service}>{service}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label" for="ef-message"
+            >Anything else? <span class="field-label__optional">(optional)</span></label
+          >
+          <textarea class="field" id="ef-message" name="message" rows="3" placeholder="What needs moving..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary enquiry__submit">
+          <SendIcon size={20} />
+          <span class="enquiry__submit-label">Get My Free Quote</span>
+        </button>
+
+        <p class="enquiry__status" role="status" aria-live="polite"></p>
+
+        <p class="enquiry__fine-print">
+          We respond weekdays 07:00–18:00, Saturdays 08:00–13:00. Or call
+          <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a> if you prefer to talk.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .enquiry {
+    background: var(--light-ground);
+    border-bottom: var(--rule);
+  }
+
+  .enquiry__grid {
+    padding: 72px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .enquiry__eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--maroon);
+    margin: 0 0 14px;
+  }
+
+  .enquiry__heading {
+    margin: 0 0 20px;
+    font-family: var(--font-heading);
+    font-size: 44px;
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  .enquiry__lead {
+    margin: 0 0 32px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--body-grey);
+  }
+
+  .enquiry__checks {
+    border-top: var(--rule);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .enquiry__check {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 16px;
+    color: var(--body-grey);
+  }
+
+  .enquiry__check-mark {
+    color: var(--maroon);
+    font-weight: 700;
+  }
+
+  .enquiry__card {
+    background: var(--white);
+    border: var(--rule);
+    padding: 36px;
+  }
+
+  .enquiry__card-heading {
+    margin: 0 0 24px;
+    font-family: var(--font-heading);
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .enquiry__form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .enquiry__submit {
+    justify-content: center;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .enquiry__status {
+    margin: 0;
+    min-height: 1.4em;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .enquiry__status[data-state='error'] {
+    color: var(--maroon);
+  }
+  .enquiry__status[data-state='success'] {
+    color: var(--primary-dark);
+  }
+
+  .enquiry__fine-print {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted-grey);
+  }
+  .enquiry__fine-print a {
+    color: var(--muted-grey);
+    text-decoration: underline;
+  }
+  .enquiry__fine-print a:hover {
+    color: var(--maroon);
+  }
+
+  @media (max-width: 900px) {
+    .enquiry__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 48px 20px;
+    }
+    .enquiry__heading {
+      font-size: 32px;
+    }
+    .enquiry__card {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .field-row {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
+  const status = form?.querySelector<HTMLParagraphElement>('.enquiry__status');
+  const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const submitLabel = form?.querySelector<HTMLSpanElement>('.enquiry__submit-label');
+
+  // Service cards ("Get a quote →") pre-select the relevant service and
+  // jump straight to the form, instead of each card carrying its own
+  // separate WhatsApp message the way the old design did.
+  document.addEventListener('click', (event) => {
+    const link = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('[data-prefill-service]');
+    if (!link) return;
+    const service = link.getAttribute('data-prefill-service');
+    const select = document.getElementById('ef-service') as HTMLSelectElement | null;
+    if (select && service) select.value = service;
+  });
+
+  if (form && status && submitBtn && submitLabel) {
+    const defaultLabel = submitLabel.textContent ?? 'Get My Free Quote';
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.removeAttribute('data-state');
+      status.textContent = '';
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Sending…';
+
+      try {
+        const response = await fetch('/api/enquiry', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json().catch(() => ({ ok: false }));
+
+        if (response.ok && result.ok) {
+          form.reset();
+          status.dataset.state = 'success';
+          status.textContent = "Thanks — we've got your details and will be in touch same working day.";
+
+          // Lead-form conversion: GA4's recommended event name, plus a
+          // dataLayer breadcrumb for whichever tool reads it. No dedicated
+          // Google Ads conversion label exists for form submits yet (only
+          // the Phone Call one) — wire one in here the same way once it
+          // does.
+          const w = window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
+          w.dataLayer = w.dataLayer || [];
+          w.dataLayer.push({ event: 'generate_lead', lead_source: 'enquiry_form' });
+          w.gtag?.('event', 'generate_lead', { lead_source: 'enquiry_form' });
+        } else {
+          status.dataset.state = 'error';
+          status.textContent = result.error || 'Something went wrong — please call us instead.';
+        }
+      } catch {
+        status.dataset.state = 'error';
+        status.textContent = 'Something went wrong — please call us instead.';
+      } finally {
+        submitBtn.disabled = false;
+        submitLabel.textContent = defaultLabel;
+      }
+    });
+  }
+</script>

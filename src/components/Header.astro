@@ -1,8 +1,8 @@
 ---
 import Logo from './Logo.astro';
 import PhoneIcon from './icons/PhoneIcon.astro';
-import WhatsAppIcon from './icons/WhatsAppIcon.astro';
-import { PHONE_DISPLAY, PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+import SendIcon from './icons/SendIcon.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../lib/contact';
 ---
 
 <header class="site-header">
@@ -16,15 +16,9 @@ import { PHONE_DISPLAY, PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/con
       <PhoneIcon size={18} class="site-header__phone-icon" />
       {PHONE_DISPLAY}
     </a>
-    <a
-      href={waLink(WA_MESSAGE_DEFAULT)}
-      target="_blank"
-      rel="noopener"
-      class="btn btn--whatsapp btn--header"
-      data-wa-source="header"
-    >
-      <WhatsAppIcon size={18} />
-      WhatsApp us
+    <a href="#enquiry" class="btn btn--primary btn--header" data-cta-source="header">
+      <SendIcon size={18} />
+      Get a Quote
     </a>
   </div>
 </header>

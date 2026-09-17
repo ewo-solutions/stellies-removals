@@ -1,29 +1,22 @@
 ---
-// Fixed bottom-of-viewport WhatsApp bar for mobile — suggested in the
-// design handoff since the whole page pushes toward a phone-native action.
-// Hidden on desktop; only takes over once the header CTA is less reachable.
-import WhatsAppIcon from './icons/WhatsAppIcon.astro';
-import { waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+// Fixed bottom-of-viewport CTA bar for mobile — the whole page pushes
+// toward one action, and on a small screen the header CTA scrolls out of
+// reach fastest. Hidden on desktop.
+import SendIcon from './icons/SendIcon.astro';
 ---
 
-<a
-  href={waLink(WA_MESSAGE_DEFAULT)}
-  target="_blank"
-  rel="noopener"
-  class="mobile-wa-bar"
-  data-wa-source="mobile-sticky-bar"
->
-  <WhatsAppIcon size={20} />
-  WhatsApp for a quote
+<a href="#enquiry" class="mobile-cta-bar" data-cta-source="mobile-sticky-bar">
+  <SendIcon size={20} />
+  Get a Free Quote
 </a>
 
 <style>
-  .mobile-wa-bar {
+  .mobile-cta-bar {
     display: none;
   }
 
   @media (max-width: 640px) {
-    .mobile-wa-bar {
+    .mobile-cta-bar {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -33,7 +26,7 @@ import { waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
       right: 0;
       bottom: 0;
       z-index: 30;
-      background: var(--whatsapp);
+      background: var(--primary);
       color: var(--white);
       border-top: var(--rule);
       padding: 14px 20px;
@@ -44,8 +37,8 @@ import { waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
       letter-spacing: 0.02em;
       text-transform: uppercase;
     }
-    .mobile-wa-bar:hover {
-      background: var(--whatsapp-dark);
+    .mobile-cta-bar:hover {
+      background: var(--primary-dark);
       color: var(--white);
     }
 

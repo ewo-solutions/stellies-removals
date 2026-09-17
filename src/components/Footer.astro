@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import { PHONE_DISPLAY, PHONE_INTL_DISPLAY, PHONE_TEL, EMAIL, waLink } from '../lib/contact';
+import { PHONE_INTL_DISPLAY, PHONE_TEL, EMAIL } from '../lib/contact';
 
 const services = ['Home removals', 'Office relocations', 'Packing', 'Dismantling & assembling', 'Hoisting'];
 const areas = [
@@ -25,7 +25,6 @@ const year = new Date().getFullYear();
     <div>
       <h4 class="site-footer__heading">Contact</h4>
       <div class="site-footer__list">
-        <a href={waLink()} target="_blank" rel="noopener">WhatsApp {PHONE_DISPLAY}</a>
         <a href={`tel:${PHONE_TEL}`}>{PHONE_INTL_DISPLAY}</a>
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
       </div>

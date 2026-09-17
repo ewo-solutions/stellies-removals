@@ -1,6 +1,6 @@
 ---
-import WhatsAppIcon from './icons/WhatsAppIcon.astro';
-import { PHONE_TEL, PHONE_INTL_DISPLAY, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+import SendIcon from './icons/SendIcon.astro';
+import { PHONE_TEL, PHONE_INTL_DISPLAY } from '../lib/contact';
 ---
 
 <section class="closing">
@@ -13,15 +13,9 @@ import { PHONE_TEL, PHONE_INTL_DISPLAY, waLink, WA_MESSAGE_DEFAULT } from '../li
       </p>
     </div>
     <div class="closing__actions" data-reveal style="--reveal-delay: 120ms">
-      <a
-        href={waLink(WA_MESSAGE_DEFAULT)}
-        target="_blank"
-        rel="noopener"
-        class="btn btn--white"
-        data-wa-source="banner"
-      >
-        <WhatsAppIcon size={22} />
-        WhatsApp for a quote
+      <a href="#enquiry" class="btn btn--white" data-cta-source="banner">
+        <SendIcon size={22} />
+        Get a Quote
       </a>
       <a href={`tel:${PHONE_TEL}`} class="btn btn--outline-white">{PHONE_INTL_DISPLAY}</a>
     </div>

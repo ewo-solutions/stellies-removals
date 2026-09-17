@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { PHONE_TEL, WHATSAPP_NUMBER, EMAIL } from '../lib/contact';
+import { PHONE_TEL, EMAIL } from '../lib/contact';
 
 interface Props {
   title: string;
@@ -47,7 +47,6 @@ const structuredData = {
     latitude: -33.7098,
     longitude: 18.9623,
   },
-  sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`],
   makesOffer: [
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Home removals' } },
     { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Office relocations' } },
@@ -114,26 +113,19 @@ const structuredData = {
     <slot />
 
     <script>
-      // Every WhatsApp CTA: push a provider-agnostic dataLayer event (source
-      // by position, for GTM/GA4 later) and report the same Google Ads
-      // conversion used for phone calls — the client only has the one
-      // conversion action set up, covering both contact routes for now.
-      // WhatsApp links open in a new tab (target="_blank"), so — unlike the
-      // tel: handler — we never preventDefault or redirect the current tab:
-      // call gtag_report_conversion with no url, which fires the conversion
-      // ping and skips its navigation callback, leaving the new-tab open
-      // exactly as it would without this listener.
+      // Every "jump to the enquiry form" CTA (header, hero, service cards,
+      // closing banner, mobile bar) pushes a provider-agnostic dataLayer
+      // event with its source, so which position actually gets people to
+      // the form is visible before the submit-conversion fires. This is
+      // just a breadcrumb, not a conversion — the real one fires on a
+      // successful submit (see EnquiryForm.astro).
       document.addEventListener('click', (event) => {
-        const target = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('[data-wa-source]');
+        const target = (event.target as HTMLElement)?.closest<HTMLAnchorElement>('[data-cta-source]');
         if (!target) return;
-        const source = target.getAttribute('data-wa-source');
-        const w = window as unknown as {
-          dataLayer?: unknown[];
-          gtag_report_conversion?: (url?: string) => boolean;
-        };
+        const source = target.getAttribute('data-cta-source');
+        const w = window as unknown as { dataLayer?: unknown[] };
         w.dataLayer = w.dataLayer || [];
-        w.dataLayer.push({ event: 'whatsapp_click', wa_source: source });
-        w.gtag_report_conversion?.();
+        w.dataLayer.push({ event: 'cta_click', cta_source: source });
       });
     </script>
 

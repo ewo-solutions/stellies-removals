@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import SendIcon from './icons/SendIcon.astro';
 import heroImage from '../assets/images/hero-truck-bw.jpg';
-import { PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
+import { PHONE_TEL } from '../lib/contact';
 ---
 
 <section class="hero">
@@ -16,19 +16,13 @@ import { PHONE_TEL, waLink, WA_MESSAGE_DEFAULT } from '../lib/contact';
         Swellendam and St Helena Bay.
       </p>
       <div class="hero__actions">
-        <a
-          href={waLink(WA_MESSAGE_DEFAULT)}
-          target="_blank"
-          rel="noopener"
-          class="btn btn--whatsapp"
-          data-wa-source="hero"
-        >
-          <WhatsAppIcon size={21} />
-          Get my quote on WhatsApp
+        <a href="#enquiry" class="btn btn--primary" data-cta-source="hero">
+          <SendIcon size={21} />
+          Get My Free Quote
         </a>
         <a href={`tel:${PHONE_TEL}`} class="btn btn--outline-ink">Call us now</a>
       </div>
-      <p class="hero__fine-print">Send a photo of what needs moving. Free quote, same working day.</p>
+      <p class="hero__fine-print">Tell us what needs moving. Free quote, same working day.</p>
     </div>
     <div class="hero__image" data-reveal style="--reveal-delay: 150ms">
       <Image src={heroImage} alt="Stellies Removals truck and trailer" width={900} height={900} loading="eager" />
