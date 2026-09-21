@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import { EMAIL } from '../../lib/contact';
 
 // Runs as a Vercel serverless function (output: 'hybrid' + prerender=false
 // below) — every other page on the site stays static.
@@ -121,44 +120,21 @@ export const POST: APIRoute = async ({ request }) => {
     submittedAt: new Date().toISOString(),
   };
 
-  // Always land in Vercel's function logs first — this is the fallback
-  // record of the lead regardless of whether the email forward below
-  // succeeds, so nothing is lost if that integration hiccups.
+  // This is the system of record: every lead lands in Vercel's function
+  // logs here regardless of what happens with email delivery below, so
+  // nothing is ever lost to a downstream integration hiccup.
   console.log('[enquiry] lead received', JSON.stringify(lead));
 
-  // Staging-only email delivery: FormSubmit.co needs no signup or API
-  // key, but its FIRST-EVER submission to a given address only sends
-  // that address an activation email — it does not deliver the lead
-  // itself until that link is clicked. Swap this for the client's
-  // preferred provider/CRM webhook before this goes live for real.
-  try {
-    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(EMAIL)}`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', accept: 'application/json' },
-      body: JSON.stringify({
-        _subject: `New website enquiry — ${name} (${service})`,
-        _template: 'table',
-        _captcha: 'false',
-        Name: name,
-        Phone: phone,
-        Email: email || 'Not provided',
-        'Moving from': movingFrom || 'Not provided',
-        'Moving to': movingTo || 'Not provided',
-        'Preferred date': moveDate || 'Not provided',
-        Service: service,
-        Message: message || 'Not provided',
-      }),
-    });
-
-    if (!response.ok) {
-      console.error('[enquiry] formsubmit forward failed', response.status, await response.text());
-    }
-  } catch (error) {
-    console.error('[enquiry] formsubmit forward errored', error);
-  }
-
-  // Report success either way — the lead is safely logged above even if
-  // the email forward isn't active yet.
+  // Email notification (FormSubmit.co) intentionally does NOT happen here.
+  // It sits behind Cloudflare bot protection that blocks server-to-server
+  // calls — confirmed in production: this route's own attempt to call it
+  // got a 403 challenge page back, never FormSubmit itself. Their intended
+  // integration is a real browser request, so that call now happens
+  // client-side instead, in EnquiryForm.astro's submit handler, as a
+  // best-effort notification on top of the record kept here. A no-JS
+  // submission (this route's <form> fallback) therefore has no email
+  // notification path — only this log — until a JS-independent delivery
+  // method replaces FormSubmit.co (see README).
   return wantsJson
     ? jsonResponse({ ok: true })
     : htmlResponse({ title: 'Thanks!', message: "We've got your details and will be in touch same working day." });

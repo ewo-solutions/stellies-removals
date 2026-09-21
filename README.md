@@ -33,26 +33,45 @@ src/
 
 ## Lead capture: form, not WhatsApp
 
-**As of the `staging` branch, WhatsApp has been removed as a contact
-channel** — every CTA on the page (`Get a Quote`, `Get My Free Quote`, the
-service-card links, the closing banner, the mobile sticky bar) scrolls to
-`#enquiry`, a real form (`EnquiryForm.astro`), instead of opening a `wa.me`
-chat. This was a deliberate switch: WhatsApp leads were hard to track and
-account for reliably; a submitted form is not.
+**WhatsApp has been removed as a contact channel, live in production** —
+every CTA on the page (`Get a Quote`, `Get My Free Quote`, the service-card
+links, the closing banner, the mobile sticky bar) scrolls to `#enquiry`, a
+real form (`EnquiryForm.astro`), instead of opening a `wa.me` chat. This was
+a deliberate switch: WhatsApp leads were hard to track and account for
+reliably; a submitted form is not.
 
-- **`src/pages/api/enquiry.ts`** validates the submission (name + phone
-  required; a hidden honeypot field for spam), logs every lead to Vercel's
-  function logs regardless of what happens next, and forwards it by email via
-  [FormSubmit.co](https://formsubmit.co) — a zero-signup relay used here
-  **as a staging placeholder**, not a final choice. Swap it for the client's
-  preferred provider/CRM webhook before this goes live for real.
-  - **FormSubmit needs a one-time activation**: its first-ever delivery to
-    `info@stelliesremovals.com` only sends that inbox a confirmation link —
-    it won't actually forward a lead until someone clicks it. Do that before
-    trusting a "no leads arriving" report on this branch.
+- **`src/pages/api/enquiry.ts`** is the system of record: it validates the
+  submission (name + phone required; a hidden honeypot field for spam) and
+  logs every lead to Vercel's function logs, regardless of what happens with
+  email delivery. Nothing is ever lost to a downstream integration hiccup —
+  `vercel logs` or the Vercel dashboard's Runtime Logs always has it.
+- **Email delivery is a separate, client-side, best-effort step** — after a
+  successful submit, the browser calls
+  [FormSubmit.co](https://formsubmit.co)'s AJAX endpoint directly (see
+  `EnquiryForm.astro`'s submit handler), sending to `info@stelliesremovals.com`
+  (`EMAIL` in `lib/contact.ts`). This is **not** done server-side: FormSubmit
+  sits behind Cloudflare bot protection that blocks server-to-server calls —
+  confirmed in production, where the API route's own first attempt at this
+  got a 403 Cloudflare challenge page back, never FormSubmit itself. A real
+  browser request is FormSubmit's intended integration and isn't blocked the
+  same way.
+  - **FormSubmit needs a one-time activation**: its first-ever delivery to a
+    new address only sends that inbox a confirmation link — it won't forward
+    the actual lead until someone clicks it. If `info@stelliesremovals.com`
+    hasn't received a "confirm your FormSubmit form" email yet, submit the
+    form once for real and check that inbox (including spam).
+  - This is a **placeholder, not a final choice** — swap it for the client's
+    preferred provider/CRM webhook whenever they want something more
+    permanent. Every lead is captured in Vercel's logs either way, so
+    switching later doesn't risk losing anything in the meantime.
+  - A no-JS submission (the `<form method="post">` fallback `enquiry.ts`
+    also serves) has **no email notification path** — only the server log —
+    since the client-side call requires JavaScript. Acceptable for now given
+    how rare no-JS visitors are for a form like this; flag if that needs
+    fixing.
 - The form works with JavaScript disabled too (a real `<form method="post"
-  action="/api/enquiry">`, handled by the same route) — with JS, submission
-  happens via `fetch` with no page reload and inline success/error state.
+  action="/api/enquiry">`) — with JS, submission happens via `fetch` with no
+  page reload and inline success/error state.
 - **Lead tracking**: a successful submit fires a GA4-style `generate_lead`
   event (`gtag` + `dataLayer`). There's no dedicated Google Ads *conversion*
   for form submits yet — only the existing "Phone Call" one — so it isn't
@@ -94,9 +113,10 @@ Key decisions:
 
 ## Open items for the client
 
-- **Confirm the FormSubmit.co staging setup is acceptable, or name a
-  preferred lead destination** (email API, CRM webhook, Zapier/Make, etc.)
-  before this goes live — see "Lead capture" above.
+- **Activate FormSubmit** (check `info@stelliesremovals.com` for its
+  confirmation email, click the link) if that hasn't happened yet, and
+  confirm the FormSubmit.co setup is acceptable or name a preferred lead
+  destination — see "Lead capture" above.
 - **Create a "Lead Form" conversion action in Google Ads** if form
   submissions should count toward Ads reporting separately from phone calls.
 - Confirm the trading hours ("Weekdays 07:00–18:00, Saturdays 08:00–13:00")

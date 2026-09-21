@@ -1,6 +1,6 @@
 ---
 import SendIcon from './icons/SendIcon.astro';
-import { PHONE_DISPLAY, PHONE_TEL, SERVICES } from '../lib/contact';
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL, SERVICES } from '../lib/contact';
 
 const checks = ['Same working day response', 'Fixed, written quote — no surprises', 'Fully equipped crew and vehicles'];
 ---
@@ -28,7 +28,14 @@ const checks = ['Same working day response', 'Fixed, written quote — no surpri
     <div class="enquiry__card" data-reveal style="--reveal-delay: 120ms">
       <h3 class="enquiry__card-heading">Request your free quote</h3>
 
-      <form id="enquiry-form" class="enquiry__form" method="post" action="/api/enquiry" novalidate>
+      <form
+        id="enquiry-form"
+        class="enquiry__form"
+        method="post"
+        action="/api/enquiry"
+        data-target-email={EMAIL}
+        novalidate
+      >
         <!-- Honeypot: hidden from real visitors, bots tend to fill in every field. -->
         <div class="field-trap" aria-hidden="true">
           <label for="ef-website">Leave this field empty</label>
@@ -293,6 +300,36 @@ const checks = ['Same working day response', 'Fixed, written quote — no surpri
           w.dataLayer = w.dataLayer || [];
           w.dataLayer.push({ event: 'generate_lead', lead_source: 'enquiry_form' });
           w.gtag?.('event', 'generate_lead', { lead_source: 'enquiry_form' });
+
+          // Email delivery: FormSubmit.co sits behind Cloudflare bot
+          // protection that blocks server-to-server calls (confirmed — our
+          // own API route tried this first and got a 403 challenge page
+          // back, never FormSubmit itself). Their intended integration is
+          // a real browser request, so this fires from here instead — the
+          // lead is already safely recorded via /api/enquiry above either
+          // way, this is purely the email notification on top. First-ever
+          // delivery to a new address only sends an activation link, not
+          // the lead itself — see README.
+          const targetEmail = form.dataset.targetEmail;
+          if (targetEmail) {
+            fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json', accept: 'application/json' },
+              body: JSON.stringify({
+                _subject: `New website enquiry — ${data.name} (${data.service || 'General enquiry'})`,
+                _template: 'table',
+                _captcha: 'false',
+                Name: data.name,
+                Phone: data.phone,
+                Email: data.email || 'Not provided',
+                'Moving from': data.movingFrom || 'Not provided',
+                'Moving to': data.movingTo || 'Not provided',
+                'Preferred date': data.moveDate || 'Not provided',
+                Service: data.service || 'General enquiry',
+                Message: data.message || 'Not provided',
+              }),
+            }).catch((error) => console.warn('[enquiry] formsubmit email notification failed', error));
+          }
         } else {
           status.dataset.state = 'error';
           status.textContent = result.error || 'Something went wrong — please call us instead.';
