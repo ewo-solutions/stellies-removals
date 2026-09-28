@@ -108,6 +108,26 @@ const structuredData = {
         return false;
       }
     </script>
+
+    <!-- Event snippet for Paarl Removals Form conversion page. Renamed from
+         the client's gtag_report_conversion to gtag_report_conversion_lead_form
+         (same body, different send_to) — the Phone Call snippet above already
+         claims that name; keeping both as gtag_report_conversion would have
+         the second definition silently overwrite the first. -->
+    <script is:inline>
+      function gtag_report_conversion_lead_form(url) {
+        var callback = function () {
+          if (typeof url != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+          send_to: 'AW-628744913/TMsKCI-p3ogdENHF56sC',
+          event_callback: callback,
+        });
+        return false;
+      }
+    </script>
   </head>
   <body>
     <slot />

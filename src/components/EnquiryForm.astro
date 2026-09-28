@@ -291,15 +291,22 @@ const checks = ['Same working day response', 'Fixed, written quote — no surpri
           status.dataset.state = 'success';
           status.textContent = "Thanks — we've got your details and will be in touch same working day.";
 
-          // Lead-form conversion: GA4's recommended event name, plus a
-          // dataLayer breadcrumb for whichever tool reads it. No dedicated
-          // Google Ads conversion label exists for form submits yet (only
-          // the Phone Call one) — wire one in here the same way once it
-          // does.
-          const w = window as unknown as { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
+          // Lead-form conversion: GA4's recommended event name and a
+          // dataLayer breadcrumb, plus the client's dedicated Google Ads
+          // "Paarl Removals Form" conversion action (distinct from Phone
+          // Call — see gtag_report_conversion_lead_form in Layout.astro).
+          // No url is passed: the form doesn't navigate anywhere on
+          // success, so the callback's navigation branch is simply skipped
+          // and only the conversion ping fires.
+          const w = window as unknown as {
+            dataLayer?: unknown[];
+            gtag?: (...args: unknown[]) => void;
+            gtag_report_conversion_lead_form?: (url?: string) => boolean;
+          };
           w.dataLayer = w.dataLayer || [];
           w.dataLayer.push({ event: 'generate_lead', lead_source: 'enquiry_form' });
           w.gtag?.('event', 'generate_lead', { lead_source: 'enquiry_form' });
+          w.gtag_report_conversion_lead_form?.();
 
           // Email delivery: FormSubmit.co sits behind Cloudflare bot
           // protection that blocks server-to-server calls (confirmed — our

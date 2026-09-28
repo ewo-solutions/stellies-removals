@@ -73,10 +73,11 @@ reliably; a submitted form is not.
   action="/api/enquiry">`) — with JS, submission happens via `fetch` with no
   page reload and inline success/error state.
 - **Lead tracking**: a successful submit fires a GA4-style `generate_lead`
-  event (`gtag` + `dataLayer`). There's no dedicated Google Ads *conversion*
-  for form submits yet — only the existing "Phone Call" one — so it isn't
-  counted as an Ads conversion until the client creates that action and its
-  label gets wired in the same way `tel:` clicks are.
+  event (`gtag` + `dataLayer`) and the client's dedicated Google Ads "Paarl
+  Removals Form" conversion action (`AW-628744913/TMsKCI-p3ogdENHF56sC`,
+  via `gtag_report_conversion_lead_form` in `Layout.astro`) — a separate
+  conversion action from the "Phone Call" one (`gtag_report_conversion`),
+  so Ads reports the two contact routes independently.
 - Clicking a service card's "Get a quote →" pre-selects that service in the
   form's dropdown before scrolling to it, replacing the old per-card WhatsApp
   message.
@@ -117,7 +118,5 @@ Key decisions:
   confirmation email, click the link) if that hasn't happened yet, and
   confirm the FormSubmit.co setup is acceptable or name a preferred lead
   destination — see "Lead capture" above.
-- **Create a "Lead Form" conversion action in Google Ads** if form
-  submissions should count toward Ads reporting separately from phone calls.
 - Confirm the trading hours ("Weekdays 07:00–18:00, Saturdays 08:00–13:00")
   and the trust-bar estate list still apply to the Paarl operation.
